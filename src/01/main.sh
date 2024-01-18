@@ -8,6 +8,15 @@
 
 source ./check.sh
 
+checkMemory() {
+    free_space=$(df -Th / | awk 'NR==2 {print $5}' | sed 's/G//') 
+    result=$(echo "$free_space > 1" | bc -l)
+    echo $result
+    if ! [[ $result == "1" ]]; then
+      echo "STOP"
+    fi
+}
+
 makeNewName() {
     oldName=$1
     syms=$2
@@ -46,6 +55,9 @@ makeFiles() {
     head -c "$sizeFiles"K < /dev/urandom > "$BaseNameFile$Date.$SymbolsEx"
     local count=$((count - 1))
     BaseNameFile=$(makeNewName $BaseNameFile $SymbolsName)
+    if [[ $(checkMemory) == "STOP" ]]; then
+        exit
+    fi
     done
 }
 
