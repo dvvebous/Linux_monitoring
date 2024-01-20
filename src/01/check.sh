@@ -14,15 +14,13 @@
 #     if $1 =~ ^[a-zA-Z]{1,3}$    
 # }
 
+
+
 Check() {
-# echo "$1"
-# echo "$2"
-# echo "$3"
-# echo "$4"
-# echo "$5"
-# echo "$6"
-    flag=0
-    if ! [[ -d $1 ]]; then
+    if [ "$#" -ne 6 ]; then
+    #Формулировка кала  
+    echo "Not enough or too many arguments"
+    elif ! [[ -d $1 ]]; then
         echo -e "Not correct path: $1"
     elif ! [[ $2 =~ [0-9]+$ ]]; then
         echo -e "The number of subfolders must be a number. Your input: $2"
@@ -34,7 +32,7 @@ Check() {
         echo -e "the list must consist of letters of the English alphabet used in the file name and extension (no more than 7 characters for the name, no more than 3 characters for the extension). Your input: $5"
     # Можно ввести ноль и тогда пройдет
     elif ! [[ $6 =~ ^[0-9]{1,2}kb$ ]] ; then
-        echo -e "The number of subfolders must be a number. Your input: $2"
+        echo -e "The number of subfolders must be a number. Your input: $6"
     else
          echo "1"
     fi
