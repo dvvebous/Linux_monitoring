@@ -39,8 +39,9 @@ createDirAndFiles() {
     DirName="$(makeBaseName $SymbolsDirs)"
     while [ $count -gt 0 ]
     do
+    echo "$DirName$Date" >> log.log
     mkdir "$DirName$Date" && cd "$DirName$Date"
-    makeFiles
+    makeFiles $DirName
     cd ../
     local count=$((count - 1))
     DirName=$(makeNewName $DirName $SymbolsDirs)
@@ -48,10 +49,13 @@ createDirAndFiles() {
 }
 
 makeFiles() {
+    echo $1
+    curDir=$1
     local count=$((CountFiles))
     BaseNameFile="$(makeBaseName $SymbolsName)"
     while [ $count -gt 0 ]
     do
+    echo "$curDir$Date/$BaseNameFile$Date.$SymbolsEx" >> ../log.log
     head -c "$sizeFiles"K < /dev/urandom > "$BaseNameFile$Date.$SymbolsEx"
     local count=$((count - 1))
     BaseNameFile=$(makeNewName $BaseNameFile $SymbolsName)
