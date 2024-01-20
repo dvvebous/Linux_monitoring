@@ -11,7 +11,7 @@ source ./create.sh
 
 resultCheck=$(Check $1 $2 $3 $4 $5 $6)
 if [[ $resultCheck =~ ^[1]$ ]]; then
-    Date="_$(date +%D | sed 's/\///' | sed 's/\///')"
+    Date="_$(date +'%d%m%y')"
     Path=$1
     CountDirs=$2
     SymbolsDirs=$3
