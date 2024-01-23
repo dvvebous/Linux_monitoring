@@ -2,10 +2,11 @@
 
 checkMemory() {
     free_space=$(df -Th -k / | awk 'NR==2 {print $5}') 
-    result=$(echo "$free_space > 1" | bc -l)
-    echo $result
+    result=$(echo "$free_space > 1048576" | bc -l)
     if ! [[ $result == "1" ]]; then
-      echo "STOP"
+      echo "0"
+    else
+        echo "1"
     fi
 }
 
@@ -29,7 +30,7 @@ createDirAndFiles() {
     cd $1
     local count=$(($2))
     DirName="$(makeBaseName $SymbolsDirs)"
-    while [ $count -gt 0 ]
+    while [ $count -gt 0 ] && [[ $(checkMemory) == "1" ]]
     do
     echo "$PWD/$DirName$Date" >> $pathLogfile
     sudo mkdir "$DirName$Date" && cd "$DirName$Date"
@@ -44,15 +45,12 @@ makeFiles() {
     curDir=$1
     local count=$((RANDOM % (100) + 1))
     BaseNameFile="$(makeBaseName $SymbolsName)"
-    while [ $count -gt 0 ]
+    while [ $count -gt 0 ] && [[ $(checkMemory) == "1" ]]
     do
         sudo touch "$PWD/$BaseNameFile$Date.$SymbolsEx"
         echo "$PWD/$BaseNameFile$Date.$SymbolsEx" >> $pathLogfile
         sudo sh -c "head -c "$sizeFiles"M < /dev/urandom > $BaseNameFile$Date.$SymbolsEx"
         local count=$((count - 1))
         BaseNameFile=$(makeNewName $BaseNameFile $SymbolsName)
-        if [[ $(checkMemory) == "STOP" ]]; then
-            exit
-        fi
     done
 }
