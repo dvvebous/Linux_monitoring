@@ -1,7 +1,7 @@
 #!/bin/bash
 
 checkMemory() {
-    free_space=$(df -Th / | awk 'NR==2 {print $5}' | sed 's/G//') 
+    free_space=$(df -Th -k / | awk 'NR==2 {print $5}') 
     result=$(echo "$free_space > 1" | bc -l)
     echo $result
     if ! [[ $result == "1" ]]; then
@@ -46,13 +46,13 @@ makeFiles() {
     BaseNameFile="$(makeBaseName $SymbolsName)"
     while [ $count -gt 0 ]
     do
-    echo "$PWD/$DirName$Date/$curDir$Date/$BaseNameFile$Date.$SymbolsEx"
-    echo "$PWD/$DirName$Date/$curDir$Date/$BaseNameFile$Date.$SymbolsEx" >> $pathLogfile
-    head -c "$sizeFiles"M < /dev/urandom > "$BaseNameFile$Date.$SymbolsEx"
-    local count=$((count - 1))
-    BaseNameFile=$(makeNewName $BaseNameFile $SymbolsName)
-    if [[ $(checkMemory) == "STOP" ]]; then
-        exit
-    fi
+        sudo touch "$PWD/$BaseNameFile$Date.$SymbolsEx"
+        echo "$PWD/$BaseNameFile$Date.$SymbolsEx" >> $pathLogfile
+        sudo sh -c "head -c "$sizeFiles"M < /dev/urandom > $BaseNameFile$Date.$SymbolsEx"
+        local count=$((count - 1))
+        BaseNameFile=$(makeNewName $BaseNameFile $SymbolsName)
+        if [[ $(checkMemory) == "STOP" ]]; then
+            exit
+        fi
     done
 }

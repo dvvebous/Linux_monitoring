@@ -25,7 +25,6 @@ if [[ $result =~ ^[1]$ ]]; then
     cd $path
     countDirs=$((RANDOM % (100) + 1))
     createDirAndFiles $path $countDirs
-    # echo "$PWD/ABC$Date"
     done
 else
     echo "$result"
