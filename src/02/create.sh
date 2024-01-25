@@ -32,7 +32,7 @@ createDirAndFiles() {
     DirName="$(makeBaseName $SymbolsDirs)"
     while [ $count -gt 0 ] && [[ $(checkMemory) == "1" ]]
     do
-    echo "$PWD/$DirName$Date" >> $pathLogfile
+    echo "$PWD/$DirName$Date --- $(date +'%d %b %Y %H:%M:%S')" >> $pathLogfile
     sudo mkdir "$DirName$Date" && cd "$DirName$Date"
     makeFiles $DirName
     cd ../
@@ -48,8 +48,9 @@ makeFiles() {
     while [ $count -gt 0 ] && [[ $(checkMemory) == "1" ]]
     do
         sudo touch "$PWD/$BaseNameFile$Date.$SymbolsEx"
-        echo "$PWD/$BaseNameFile$Date.$SymbolsEx" >> $pathLogfile
-        sudo sh -c "head -c "$sizeFiles"M < /dev/urandom > $BaseNameFile$Date.$SymbolsEx"
+        echo "$PWD/$BaseNameFile$Date.$SymbolsEx --- $(date +'%d %b %Y %H:%M:%S') --- "$SizeFiles"Mb" >> $pathLogfile
+        # sudo sh -c "head -c "$sizeFiles"M < /dev/urandom > $BaseNameFile$Date.$SymbolsEx"
+        sudo dd if=/dev/zero of=$BaseNameFile$Date.$SymbolsEx bs=1024 count=$(($SizeFiles * 1024))
         local count=$((count - 1))
         BaseNameFile=$(makeNewName $BaseNameFile $SymbolsName)
     done

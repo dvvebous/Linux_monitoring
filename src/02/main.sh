@@ -4,7 +4,7 @@
 source ./check.sh
 source ./create.sh
 
-
+startTime=$(date +%s)
 result=$(Check $1 $2 $3)
 if [[ $result =~ ^[1]$ ]]; then
     touch log.log
@@ -20,12 +20,19 @@ if [[ $result =~ ^[1]$ ]]; then
     SymbolsEx=${parts[1]}
     while [[ $(checkMemory) == "1" ]]
     do
-
-    path=$(sudo find / -type d \( ! -path "*bin*" -a ! -path "*sbin*" ! -path "*proc*" ! -path "*sys*" \) | shuf -n 1)
-    cd $path
-    countDirs=$((RANDOM % (100) + 1))
-    createDirAndFiles $path $countDirs
+        path=$(sudo find / -type d \( ! -path "*bin*" -a ! -path "*sbin*" ! -path "*proc*" ! -path "*sys*" \) | shuf -n 1)
+        cd $path
+        countDirs=$((RANDOM % (100) + 1))
+        createDirAndFiles $path $countDirs
     done
+    endTime=$(date +%s)
+    totalTime=$(($endTime - $startTime))
+    startFormatted=$(date -d "@$startTime" +"%d_%b_%Y_%H:%M:%S")
+    endFormatted=$(date -d "@$endTime" +'%d_%b_%Y_%H:%M:%S')
+    echo "Start: $startFormatted" >> $pathLogfile
+    echo "End: $endFormatted" >> $pathLogfile
+    echo "Work time: $totalTime" >> $pathLogfile
+
 else
     echo "$result"
 fi
