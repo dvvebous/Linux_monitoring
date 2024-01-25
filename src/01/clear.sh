@@ -1,7 +1,7 @@
 #/bin/bash
 rm -fr ./*.az
 rm -f log.log
-rm -rf *_200124/
+rm -rf *_250124/
 cd ..
 rm -fr ./*.az
 rm -f log.log
