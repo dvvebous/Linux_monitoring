@@ -16,9 +16,9 @@ agents=("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:36.0) Gecko/20100101 Firefox/36.
 "Mozilla/5.0 (iPod; CPU iPhone OS 16_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/107.0.5304.66 Mobile/15E148 Safari/604.1")
 months=("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
 years=("2023" "2022")
-
+rm -f *.log
 generate_ip() {
-    echo "$((RANDOM % 257 + 1)).$((RANDOM % 256)).$((RANDOM % 256)).$((RANDOM % 256))"
+    echo "$((RANDOM % 255 + 1)).$((RANDOM % 256)).$((RANDOM % 256)).$((RANDOM % 256))"
 }
 generate_hour() {    
     printf ":%02d:%02d:%02d +0300" "$hour" "$minute" "$second"
@@ -57,8 +57,6 @@ for ((i = 1; i <= 5; i++)); do
         agent=$(generate_user_agent)
         url="/page/$j"
         byteSend=$((RANDOM % 100000))
-        # Запись в файл лога
         echo "$ip - - [$dateGen] \"$method $url HTTP/1.1\" $code $byteSend \"-\" \"$agent\"" >> "$filename"
     done
-    echo "Сгенерирован файл лога: $filename"
 done
