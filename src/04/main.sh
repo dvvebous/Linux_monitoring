@@ -38,7 +38,7 @@ generate_user_agent() {
 
 for ((i = 1; i <= 5; i++)); do
     num_entries=$((RANDOM % 901 + 100))
-    filename="access_log_$i.log"
+    filename="log_$i.log"
     dmy=$(generate_date)
     for ((j = 1; j <= num_entries; j++)); do
         ip=$(generate_ip)
