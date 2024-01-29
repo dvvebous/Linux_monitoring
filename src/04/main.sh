@@ -18,7 +18,7 @@ months=("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
 years=("2023" "2022")
 
 generate_ip() {
-    echo "$((RANDOM % 256)).$((RANDOM % 256)).$((RANDOM % 256)).$((RANDOM % 256))"
+    echo "$((RANDOM % 257 + 1)).$((RANDOM % 256)).$((RANDOM % 256)).$((RANDOM % 256))"
 }
 generate_hour() {    
     printf ":%02d:%02d:%02d +0300" "$hour" "$minute" "$second"
