@@ -1,9 +1,0 @@
-# HELP avg_cpu_load
-# TYPE avg_cpu_load gauge
-avg_load=4
-# HELP free_RAM
-# TYPE free_RAM gauge
-free_RAM=1.31
-# HELP free_ROM
-# TYPE free_ROM gauge
-free_ROM=3.4
