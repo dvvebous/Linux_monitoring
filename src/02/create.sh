@@ -6,7 +6,7 @@ checkMemory() {
     if ! [[ $result == "1" ]]; then
       echo "0"
     else
-        echo "1"
+      echo "1"
     fi
 }
 
@@ -49,7 +49,6 @@ makeFiles() {
     do
         sudo touch "$PWD/$BaseNameFile$Date.$SymbolsEx"
         echo "$PWD/$BaseNameFile$Date.$SymbolsEx --- $(date +'%d %b %Y %H:%M:%S') --- "$SizeFiles"Mb" >> $pathLogfile
-        # sudo sh -c "head -c "$sizeFiles"M < /dev/urandom > $BaseNameFile$Date.$SymbolsEx"
         sudo dd if=/dev/zero of=$BaseNameFile$Date.$SymbolsEx bs=1024 count=$(($SizeFiles * 1024))
         local count=$((count - 1))
         BaseNameFile=$(makeNewName $BaseNameFile $SymbolsName)
