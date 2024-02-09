@@ -6,6 +6,11 @@ source ./create.sh
 
 startTime=$(date +%s)
 result=$(Check $1 $2 $3)
+
+if [[ -f './log.log' ]]; then
+    rm -f log.log
+fi
+
 if [[ $result =~ ^[1]$ ]]; then
     touch log.log
     pathLogfile="$(pwd log.log)/log.log"
@@ -20,7 +25,7 @@ if [[ $result =~ ^[1]$ ]]; then
     SymbolsEx=${parts[1]}
     while [[ $(checkMemory) == "1" ]]
     do
-        path=$(sudo find / -type d \( ! -path "*bin*" -a ! -path "*sbin*" ! -path "*proc*" ! -path "*sys*" \) | shuf -n 1)
+        path=$(sudo find / -type d \( ! -path "*bin*" -a ! -path "*sbin*" -a ! -path "*proc*" -a ! -path "*sys*" \) | shuf -n 1)
         cd $path
         countDirs=$((RANDOM % (100) + 1))
         createDirAndFiles $path $countDirs
@@ -32,7 +37,6 @@ if [[ $result =~ ^[1]$ ]]; then
     echo "Start: $startFormatted" >> $pathLogfile
     echo "End: $endFormatted" >> $pathLogfile
     echo "Work time: $totalTime" >> $pathLogfile
-
 else
     echo "$result"
 fi
